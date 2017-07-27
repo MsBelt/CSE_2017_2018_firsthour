@@ -1,0 +1,1926 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): FoolUsOnce, Collude until betrayed
+        The strategy will start out colluding, but once betrayed will then alway
+        s betray.
+Player 1 (P1): oldfolks, Collude 60% unless betrayed within last 10 rounds.
+        Betray if betrayed in last 10 rounds. otherwise collude 60%of the time
+Player 2 (P2): TitForTat!, tit-for-tat
+        Mimic the opponents last move
+Player 3 (P3): Team 3, your past will haunt you
+        This strategy looks at the players recent past.If in the past 5 turns yo
+        u have betrayed someone, we will betray you. If you have not betrayed so
+        meone in the past 5 moves we will collide
+Player 4 (P4): Caffeine Required, Betray but Collude
+        Betray first round. Betray, except in a round after getting 
+        a severe punishment.
+Player 5 (P5): team 5, always betray
+        doesn't it always betrays
+Player 6 (P6): Team 6, Collude until Betrayed, then Betray all
+        Start with collude, collude until betrayed then betray all the time
+Player 7 (P7): Team 7, Screw your neighbor
+        How does this strategy decide?
+Player 8 (P8): Team BOB, Betray Or Bust
+        Et tu, Brutus?  A story of treachery and betrayal.
+Player 9 (P9): Team Tina, Betray at first strike! Retaliation protection and random choice.
+        missing assignment
+Player 10 (P10): NotBob, Always collude! No Jail! for anyone
+        We always collude that way we are never responsible for sending someone 
+        to jail!
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts/round earned against each other player:
+             P0     P1     P2     P3     P4     P5     P6     P7     P8     P9    P10
+vs. P0 :      0   -249      0      0   -247   -248      0   -250   -247   -348      0
+vs. P1 :   -252      0   -243   -242   -250   -250   -252   -252   -248   -377   -252
+vs. P2 :      0   -243      0      0   -248   -249      0   -245   -247   -366      0
+vs. P3 :      0   -242      0      0   -247   -248      0   -248   -248   -359      0
+vs. P4 :   -253   -250   -252   -253      0   -250   -252   -250   -250   -373   -253
+vs. P5 :   -252   -250   -252   -252   -250      0   -253   -250   -250   -374   -253
+vs. P6 :      0   -248      0      0   -248   -247      0   -236   -249   -378      0
+vs. P7 :   -250   -248   -245   -248   -250   -250   -236      0   -248   -365   -250
+vs. P8 :   -253   -252   -253   -253   -250   -250   -252   -252      0   -386   -253
+vs. P9 :   -113    -72    -87    -70    -78    -77    -71    -89    -60      0    -46
+vs. P10 :      0   -249      0      0   -247   -247      0   -250   -248   -396      0
+TOTAL  :  -1373  -2303  -1332  -1318  -2315  -2316  -1316  -2322  -2295  -3722  -1307
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+NotBob    (P10):       -119 points with Always collude! No Jail! for anyone     
+Team 3    (P3):       -120 points with your past will haunt you                
+Team 6    (P6):       -120 points with Collude until Betrayed, then Betray all 
+TitForTat!(P2):       -122 points with tit-for-tat                             
+FoolUsOnce(P0):       -125 points with Collude until betrayed                  
+Team BOB  (P8):       -209 points with Betray Or Bust                          
+oldfolks  (P1):       -210 points with Collude 60% unless betrayed within last 
+Caffeine R(P4):       -211 points with Betray but Collude                      
+team 5    (P5):       -211 points with always betray                           
+Team 7    (P7):       -212 points with Screw your neighbor                     
+Team Tina (P9):       -339 points with Betray at first strike! Retaliation prot
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+team0--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'FoolUsOnce' # Only 10 chars displayed.
+strategy_name = 'Collude until betrayed'
+strategy_description = 'The strategy will start out colluding, but once betrayed will then always betray.'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    if 'b' in their_history:
+        return 'b'
+    else:
+        return 'c'
+        
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team1--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+import random
+team_name = 'oldfolks' # Only 10 chars displayed.
+strategy_name = 'Collude 60% unless betrayed within last 10 rounds.'
+strategy_description = '''\
+Betray if betrayed in last 10 rounds. otherwise collude 60%of the time
+
+'''
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    if 'b' in their_history[-10:]: # If the other player has betrayed within last 10 rounds, 
+        return 'b'               # Betray.
+    else:
+        if random.random()<0.4: # 10% of the other rounds
+            return 'b'         # Betray
+        else:
+            return 'c'         # but 90% of the time collude
+    
+    
+    
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team2--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'TitForTat!' # Only 10 chars displayed.
+strategy_name = 'tit-for-tat'
+strategy_description = 'Mimic the opponents last move'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    decision = ''
+    if len(my_history) == 0 or len(their_history)==0:
+        decision = 'c'
+    elif 'b' in their_history:
+        decision = 'b'
+   # elif their_history[-1]=='b':
+    #    decision = 'b'
+    elif their_history[-1]=='c':
+        decision = 'c'    
+    else:
+        decision = 'b'
+    
+    return decision
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Team 3' # Only 10 chars displayed.
+strategy_name = 'your past will haunt you'
+strategy_description = 'This strategy looks at the players recent past.If in the past 5 turns you have betrayed someone, we will betray you. If you have not betrayed someone in the past 5 moves we will collide'
+
+
+    
+import random
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+
+    if 'b' in their_history[-5:]: # If the other player has betrayed within last 5 rounds, 
+        return 'b'               # Betray.
+    else:
+        return 'c'
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team4--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Caffeine Required'
+strategy_name = 'Betray but Collude'
+strategy_description = '''\
+Betray first round. Betray, except in a round after getting 
+a severe punishment.'''
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+    
+    history: a string with one letter (c or b) per round that has been played with this opponent.
+    their_history: a string of the same length as history, possibly empty. 
+    The first round between these two players is my_history[0] and their_history[0]
+    The most recent round is my_history[-1] and their_history[-1]
+    
+    Returns 'c' or 'b' for collude or betray.
+    '''
+    if len(my_history)==0: # It's the first round; betray.
+        return 'b'
+    elif my_history[-1]=='c' and their_history[-1]=='b':
+        return 'c' # Collude if they were severely punished last time,
+    else:
+        return 'b' # otherwise betray.
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    return 'b'
+
+    
+--------------------------------------------------------------------------------
+team5--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'team 5' # Only 10 chars displayed.
+strategy_name = 'always betray'
+strategy_description = 'doesn\'t it always betrays'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    return 'b'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team6--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Team 6' # Only 10 chars displayed.
+strategy_name = 'Collude until Betrayed, then Betray all'
+strategy_description = 'Start with collude, collude until betrayed then betray all the time'
+    
+def move(my_history, their_history, my_score, their_score):
+   
+    if 'b' in their_history:
+        return 'b'
+    else:
+        return 'c'
+    
+
+ 
+    
+       
+          
+             
+                
+                   
+                      
+                         
+                            
+                                  
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team7--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+import random
+team_name = 'Team 7' # Only 10 chars displayed.
+strategy_name = 'Screw your neighbor'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    if 'b' in their_history[-5:]: # If the other player has betrayed within last 5 rounds, 
+        return 'b'               # Betray.
+    else:
+        if random.random()<0.2: # 20% of the other rounds
+            return 'b'         # Betray
+        else:
+            return 'c'         # but 80% of the time collude
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team8--------------------------------------------------------------------------------
+team_name = 'Team BOB'
+strategy_name = 'Betray Or Bust'
+strategy_description = 'Et tu, Brutus?  A story of treachery and betrayal.'
+    
+def move(my_history, their_history, my_score, their_score):
+    #After a grueling amount of trials, we have finally come to a decision of
+    #which complex algorithm we will be using for this task.
+    #Economic strategies, Nash's Equilibrium, and classified military documents
+    #were studied for the results we present to you all today.
+    return 'b'
+--------------------------------------------------------------------------------
+team9--------------------------------------------------------------------------------
+import random
+
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Team Tina' # Only 10 chars displayed.
+strategy_name = 'Betray at first strike! Retaliation protection and random choice.'
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    if len(my_history)==0:
+        return 'b'
+    elif my_history[-1]=='b' and their_history[-1]=='c':
+        return 'b'
+    else:
+        return random.choice(['b','c'])
+        
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team10--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'NotBob' # Only 10 chars displayed.
+strategy_name = 'Always collude! No Jail! for anyone'
+strategy_description = 'We always collude that way we are never responsible for sending someone to jail!'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+   
+   #monitor players history.. look for alternating b-c .. then take advantage
+   
+   
+   # look for always c .. take advantage
+    
+    
+    if 'b' in their_history:
+        return 'b'
+    else:
+        return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+Section 3 - Game Data for Team FoolUsOnce
+--------------------------------------------------------------------------------
+-252 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-249 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+0 pt/round: Team 3(P3) "your past will haunt you"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-253 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-248 pt/round: team 5(P5) "always betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-250 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+cBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bb
+bb
+
+--------------------------------------------------------------------------------
+-253 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-247 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-113 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+-348 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbBbbbBbBbBbbBBbbBBBBbbbbBbbBbbbbbbbBbbBbbbBbbbBbbbBbBBbBBbbbBBbbBbbbbBbBbBBbbbb
+Bbcbbbcbcbcbbccbbccccbbbbcbbcbbbbbbbcbbcbbbcbbbcbbbcbccbccbbbccbbcbbbbcbcbccbbbb
+
+bbbbBBBBbBBbBBbbbBBbBBbbbbbBbbbBBBbbbBBbbBbbbbbbbbbbBbBbBbbBbbbBbbBbbBBBbbBbbbBB
+bbbbccccbccbccbbbccbccbbbbbcbbbcccbbbccbbcbbbbbbbbbbcbcbcbbcbbbcbbcbbcccbbcbbbcc
+
+BBBbBbbbBBBBbbbBBbbBbBbbBBBBbBbb
+cccbcbbbccccbbbccbbcbcbbccccbcbb
+
+--------------------------------------------------------------------------------
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team oldfolks
+--------------------------------------------------------------------------------
+-249 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-252 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-243 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-243 pt/round: TitForTat!(P2) "tit-for-tat"
+CCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbb
+bbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-242 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-242 pt/round: Team 3(P3) "your past will haunt you"
+CCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbb
+bbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-250 pt/round: team 5(P5) "always betray"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-252 pt/round: Team 7(P7) "Screw your neighbor"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbb
+bbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-72 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-377 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbBBbbbBBbBBBBbBBbBBBBBBBbBBbbbbbbBBbbBBBbbbBBBBBbbBbBbBBbbBbbBbbbBBBBbbBbBbBbBB
+Bbccbbbccbccccbccbcccccccbccbbbbbbccbbcccbbbcccccbbcbcbccbbcbbcbbbccccbbcbcbcbcc
+
+bBBBBbBbBBBBBBBbBbBBbbbBBBBBBbBBbBbbbbbbBbbBBbBBbBBbBBBbbBbBBbbbbBbbbbBbBbBbbbbB
+bccccbcbcccccccbcbccbbbccccccbccbcbbbbbbcbbccbccbccbcccbbcbccbbbbcbbbbcbcbcbbbbc
+
+bBbbbBBbBbBbbbbbbBbBBbbbBbBbBbB
+bcbbbccbcbcbbbbbbcbccbbbcbcbcbc
+
+--------------------------------------------------------------------------------
+-249 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+-252 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team TitForTat!
+--------------------------------------------------------------------------------
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-243 pt/round: TitForTat!(P2) "tit-for-tat"
+-243 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+CCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbb
+bbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+0 pt/round: Team 3(P3) "your past will haunt you"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCC
+CCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: TitForTat!(P2) "tit-for-tat"
+-248 pt/round: Caffeine Required(P4) "Betray but Collude"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbb
+bbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: TitForTat!(P2) "tit-for-tat"
+-249 pt/round: team 5(P5) "always betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-245 pt/round: TitForTat!(P2) "tit-for-tat"
+-245 pt/round: Team 7(P7) "Screw your neighbor"
+CCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: TitForTat!(P2) "tit-for-tat"
+-247 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-87 pt/round: TitForTat!(P2) "tit-for-tat"
+-366 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbbBbbBbbBBbBBBBBBBBbbbBbBbbBBBbbbbBBbBBbbbbBBbbbbbbbbbbBbbBBbbbbbBbBbBbBBBBbBbb
+Bbbcbbcbbccbccccccccbbbcbcbbcccbbbbccbccbbbbccbbbbbbbbbbcbbccbbbbbcbcbcbccccbcbb
+
+BbBBBbBBbBBBBBbBBbbbBBbbbbbBbBBbbbBBBB
+cbcccbccbcccccbccbbbccbbbbbcbccbbbcccc
+
+--------------------------------------------------------------------------------
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Team 3
+--------------------------------------------------------------------------------
+0 pt/round: Team 3(P3) "your past will haunt you"
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-242 pt/round: Team 3(P3) "your past will haunt you"
+-242 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+CCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 3(P3) "your past will haunt you"
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCC
+CCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-253 pt/round: Team 3(P3) "your past will haunt you"
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 3(P3) "your past will haunt you"
+-248 pt/round: team 5(P5) "always betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bb
+bb
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 3(P3) "your past will haunt you"
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team 3(P3) "your past will haunt you"
+-248 pt/round: Team 7(P7) "Screw your neighbor"
+CcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: Team 3(P3) "your past will haunt you"
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-70 pt/round: Team 3(P3) "your past will haunt you"
+-359 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbbBbbbBbbbBBBbBbBbbbBbBBbBBBbBBBbBbbBBBBBCCCcbbBBbbBBBbBBbBbBbbbBbBBbBbbbbbbBBB
+BbbcbbbcbbbcccbcbcbbbcbccbcccbcccbcbbcccccCCCBbbccbbcccbccbcbcbbbcbccbcbbbbbbccc
+
+BbbbBBbbbBBbbBBbbbBBBbBBbBBBbBBbBBBBBCcbBbBbBbBBBBBCcbBBbbBBb
+cbbbccbbbccbbccbbbcccbccbcccbccbcccccCBbcbcbcbcccccCBbccbbccb
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 3(P3) "your past will haunt you"
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Caffeine Required
+--------------------------------------------------------------------------------
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+-253 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+-250 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbb
+bbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Caffeine Required(P4) "Betray but Collude"
+-252 pt/round: TitForTat!(P2) "tit-for-tat"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbb
+bbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+-253 pt/round: Team 3(P3) "your past will haunt you"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+-250 pt/round: team 5(P5) "always betray"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Caffeine Required(P4) "Betray but Collude"
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+-250 pt/round: Team BOB(P8) "Betray Or Bust"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-78 pt/round: Caffeine Required(P4) "Betray but Collude"
+-373 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+bbBBbbBbBbBbbBBBbBbBbBbBbBbbBBBbBbBbbbBBBBBBBbbBBBBBBBbbBbbbBBBbBBBbBBbBbbbbbbbB
+bbccbbcbcbcbbcccbcbcbcbcbcbbcccbcbcbbbcccccccbbcccccccbbcbbbcccbcccbccbcbbbbbbbc
+
+BbbbbbbBBBbbBbBbBbbbBBbbBbbBBbBBbbBbbb
+cbbbbbbcccbbcbcbcbbbccbbcbbccbccbbcbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team team 5
+--------------------------------------------------------------------------------
+-248 pt/round: team 5(P5) "always betray"
+-252 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: team 5(P5) "always betray"
+-250 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-249 pt/round: team 5(P5) "always betray"
+-252 pt/round: TitForTat!(P2) "tit-for-tat"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: team 5(P5) "always betray"
+-252 pt/round: Team 3(P3) "your past will haunt you"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bb
+bb
+
+--------------------------------------------------------------------------------
+-250 pt/round: team 5(P5) "always betray"
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: team 5(P5) "always betray"
+-253 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: team 5(P5) "always betray"
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: team 5(P5) "always betray"
+-250 pt/round: Team BOB(P8) "Betray Or Bust"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-77 pt/round: team 5(P5) "always betray"
+-374 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+bbbbbBbbBbBbbbBBbbBBBBbBBbBBbBbBBbbbbbBBbBbBbbBbbbBbBBBbBbBbBBbbBbbBbbBBBBbbBbbB
+bbbbbcbbcbcbbbccbbccccbccbccbcbccbbbbbccbcbcbbcbbbcbcccbcbcbccbbcbbcbbccccbbcbbc
+
+BbbBbbbBBbBbBbBbbBBbbBBBBbbBbBBBBBBBbBbBbBb
+cbbcbbbccbcbcbcbbccbbccccbbcbcccccccbcbcbcb
+
+--------------------------------------------------------------------------------
+-247 pt/round: team 5(P5) "always betray"
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Team 6
+--------------------------------------------------------------------------------
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-248 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+0 pt/round: Team 3(P3) "your past will haunt you"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-248 pt/round: Caffeine Required(P4) "Betray but Collude"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-247 pt/round: team 5(P5) "always betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-236 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-236 pt/round: Team 7(P7) "Screw your neighbor"
+CCCCCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-249 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-71 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+-378 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbbBBbbbBbbbBbBbbbBbBbBbBbbbBBBBbBBbbBbBBbbBbBBbbbBbbBBbbBbBbBbBBbbbBBBBBBBBBbBB
+Bbbccbbbcbbbcbcbbbcbcbcbcbbbccccbccbbcbccbbcbccbbbcbbccbbcbcbcbccbbbcccccccccbcc
+
+bBBbBBBbbbbBBBBbbbbBBBBBBbBbBbBbbBbBBbbBBBBbbBBbbBbbBbBBBbbbBbBbBbBbbbbbbBBBBbBB
+bccbcccbbbbccccbbbbccccccbcbcbcbbcbccbbccccbbccbbcbbcbcccbbbcbcbcbcbbbbbbccccbcc
+
+BB
+cc
+
+--------------------------------------------------------------------------------
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Team 7
+--------------------------------------------------------------------------------
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+-250 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bb
+bb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 7(P7) "Screw your neighbor"
+-248 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbb
+bbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-245 pt/round: Team 7(P7) "Screw your neighbor"
+-245 pt/round: TitForTat!(P2) "tit-for-tat"
+CCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team 7(P7) "Screw your neighbor"
+-248 pt/round: Team 3(P3) "your past will haunt you"
+CBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+-250 pt/round: team 5(P5) "always betray"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-236 pt/round: Team 7(P7) "Screw your neighbor"
+-236 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+CCCCCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Team 7(P7) "Screw your neighbor"
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-89 pt/round: Team 7(P7) "Screw your neighbor"
+-365 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbBBBbbBbBBBBbbbBBbBbBBbbbbbbBbbbBbbBBBBBbbBBbbBBbBBBBbbbBBbbBbBBbbBbBbbBbbBBBbB
+Bbcccbbcbccccbbbccbcbccbbbbbbcbbbcbbcccccbbccbbccbccccbbbccbbcbccbbcbcbbcbbcccbc
+
+bbBbbBBBbBBBBbBBbbBbBbbbBBBbbBbbBbbbbBBbbBbBbbbBbbbBBbBbBBbbbBBbbBbbbbBbbbbBBbbb
+bbcbbcccbccccbccbbcbcbbbcccbbcbbcbbbbccbbcbcbbbcbbbccbcbccbbbccbbcbbbbcbbbbccbbb
+
+BBbbbBbbbBbBBBbbBBBBb
+ccbbbcbbbcbcccbbccccb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+-250 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Team BOB
+--------------------------------------------------------------------------------
+-247 pt/round: Team BOB(P8) "Betray Or Bust"
+-253 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+-252 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: Team BOB(P8) "Betray Or Bust"
+-253 pt/round: TitForTat!(P2) "tit-for-tat"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+-253 pt/round: Team 3(P3) "your past will haunt you"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Team BOB(P8) "Betray Or Bust"
+-250 pt/round: Caffeine Required(P4) "Betray but Collude"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: Team BOB(P8) "Betray Or Bust"
+-250 pt/round: team 5(P5) "always betray"
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-249 pt/round: Team BOB(P8) "Betray Or Bust"
+-252 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+-252 pt/round: Team 7(P7) "Screw your neighbor"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-60 pt/round: Team BOB(P8) "Betray Or Bust"
+-386 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+bbBbBBBbBbBBbBbBBBBbbbBBbBbbBbBbbbbBbbBBBBbbBBBbBBBBBbBBbBbBbBBbBBBBBBbbBBbBbBBB
+bbcbcccbcbccbcbccccbbbccbcbbcbcbbbbcbbccccbbcccbcccccbccbcbcbccbccccccbbccbcbccc
+
+bBBbbbbBBbbbbBBbbbBbBbBbbbbbBbBBBBBbBbBBBBbbBBbbbbBBbbBbbBBbBbbbbBbBbBbBBBbBBbBb
+bccbbbbccbbbbccbbbcbcbcbbbbbcbcccccbcbccccbbccbbbbccbbcbbccbcbbbbcbcbcbcccbccbcb
+
+BBBBBbBbBbBBb
+cccccbcbcbccb
+
+--------------------------------------------------------------------------------
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Team Tina
+--------------------------------------------------------------------------------
+-348 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-113 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+Bbcbbbcbcbcbbccbbccccbbbbcbbcbbbbbbbcbbcbbbcbbbcbbbcbccbccbbbccbbcbbbbcbcbccbbbb
+cbBbbbBbBbBbbBBbbBBBBbbbbBbbBbbbbbbbBbbBbbbBbbbBbbbBbBBbBBbbbBBbbBbbbbBbBbBBbbbb
+
+bbbbccccbccbccbbbccbccbbbbbcbbbcccbbbccbbcbbbbbbbbbbcbcbcbbcbbbcbbcbbcccbbcbbbcc
+bbbbBBBBbBBbBBbbbBBbBBbbbbbBbbbBBBbbbBBbbBbbbbbbbbbbBbBbBbbBbbbBbbBbbBBBbbBbbbBB
+
+cccbcbbbccccbbbccbbcbcbbccccbcbb
+BBBbBbbbBBBBbbbBBbbBbBbbBBBBbBbb
+
+--------------------------------------------------------------------------------
+-377 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-72 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+Bbccbbbccbccccbccbcccccccbccbbbbbbccbbcccbbbcccccbbcbcbccbbcbbcbbbccccbbcbcbcbcc
+cbBBbbbBBbBBBBbBBbBBBBBBBbBBbbbbbbBBbbBBBbbbBBBBBbbBbBbBBbbBbbBbbbBBBBbbBbBbBbBB
+
+bccccbcbcccccccbcbccbbbccccccbccbcbbbbbbcbbccbccbccbcccbbcbccbbbbcbbbbcbcbcbbbbc
+bBBBBbBbBBBBBBBbBbBBbbbBBBBBBbBBbBbbbbbbBbbBBbBBbBBbBBBbbBbBBbbbbBbbbbBbBbBbbbbB
+
+bcbbbccbcbcbbbbbbcbccbbbcbcbcbc
+bBbbbBBbBbBbbbbbbBbBBbbbBbBbBbB
+
+--------------------------------------------------------------------------------
+-366 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-87 pt/round: TitForTat!(P2) "tit-for-tat"
+Bbbcbbcbbccbccccccccbbbcbcbbcccbbbbccbccbbbbccbbbbbbbbbbcbbccbbbbbcbcbcbccccbcbb
+cbbBbbBbbBBbBBBBBBBBbbbBbBbbBBBbbbbBBbBBbbbbBBbbbbbbbbbbBbbBBbbbbbBbBbBbBBBBbBbb
+
+cbcccbccbcccccbccbbbccbbbbbcbccbbbcccc
+BbBBBbBBbBBBBBbBBbbbBBbbbbbBbBBbbbBBBB
+
+--------------------------------------------------------------------------------
+-359 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-70 pt/round: Team 3(P3) "your past will haunt you"
+BbbcbbbcbbbcccbcbcbbbcbccbcccbcccbcbbcccccCCCBbbccbbcccbccbcbcbbbcbccbcbbbbbbccc
+cbbBbbbBbbbBBBbBbBbbbBbBBbBBBbBBBbBbbBBBBBCCCcbbBBbbBBBbBBbBbBbbbBbBBbBbbbbbbBBB
+
+cbbbccbbbccbbccbbbcccbccbcccbccbcccccCBbcbcbcbcccccCBbccbbccb
+BbbbBBbbbBBbbBBbbbBBBbBBbBBBbBBbBBBBBCcbBbBbBbBBBBBCcbBBbbBBb
+
+--------------------------------------------------------------------------------
+-373 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-78 pt/round: Caffeine Required(P4) "Betray but Collude"
+bbccbbcbcbcbbcccbcbcbcbcbcbbcccbcbcbbbcccccccbbcccccccbbcbbbcccbcccbccbcbbbbbbbc
+bbBBbbBbBbBbbBBBbBbBbBbBbBbbBBBbBbBbbbBBBBBBBbbBBBBBBBbbBbbbBBBbBBBbBBbBbbbbbbbB
+
+cbbbbbbcccbbcbcbcbbbccbbcbbccbccbbcbbb
+BbbbbbbBBBbbBbBbBbbbBBbbBbbBBbBBbbBbbb
+
+--------------------------------------------------------------------------------
+-374 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-77 pt/round: team 5(P5) "always betray"
+bbbbbcbbcbcbbbccbbccccbccbccbcbccbbbbbccbcbcbbcbbbcbcccbcbcbccbbcbbcbbccccbbcbbc
+bbbbbBbbBbBbbbBBbbBBBBbBBbBBbBbBBbbbbbBBbBbBbbBbbbBbBBBbBbBbBBbbBbbBbbBBBBbbBbbB
+
+cbbcbbbccbcbcbcbbccbbccccbbcbcccccccbcbcbcb
+BbbBbbbBBbBbBbBbbBBbbBBBBbbBbBBBBBBBbBbBbBb
+
+--------------------------------------------------------------------------------
+-378 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-71 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+Bbbccbbbcbbbcbcbbbcbcbcbcbbbccccbccbbcbccbbcbccbbbcbbccbbcbcbcbccbbbcccccccccbcc
+cbbBBbbbBbbbBbBbbbBbBbBbBbbbBBBBbBBbbBbBBbbBbBBbbbBbbBBbbBbBbBbBBbbbBBBBBBBBBbBB
+
+bccbcccbbbbccccbbbbccccccbcbcbcbbcbccbbccccbbccbbcbbcbcccbbbcbcbcbcbbbbbbccccbcc
+bBBbBBBbbbbBBBBbbbbBBBBBBbBbBbBbbBbBBbbBBBBbbBBbbBbbBbBBBbbbBbBbBbBbbbbbbBBBBbBB
+
+cc
+BB
+
+--------------------------------------------------------------------------------
+-365 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-89 pt/round: Team 7(P7) "Screw your neighbor"
+Bbcccbbcbccccbbbccbcbccbbbbbbcbbbcbbcccccbbccbbccbccccbbbccbbcbccbbcbcbbcbbcccbc
+cbBBBbbBbBBBBbbbBBbBbBBbbbbbbBbbbBbbBBBBBbbBBbbBBbBBBBbbbBBbbBbBBbbBbBbbBbbBBBbB
+
+bbcbbcccbccccbccbbcbcbbbcccbbcbbcbbbbccbbcbcbbbcbbbccbcbccbbbccbbcbbbbcbbbbccbbb
+bbBbbBBBbBBBBbBBbbBbBbbbBBBbbBbbBbbbbBBbbBbBbbbBbbbBBbBbBBbbbBBbbBbbbbBbbbbBBbbb
+
+ccbbbcbbbcbcccbbccccb
+BBbbbBbbbBbBBBbbBBBBb
+
+--------------------------------------------------------------------------------
+-386 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-60 pt/round: Team BOB(P8) "Betray Or Bust"
+bbcbcccbcbccbcbccccbbbccbcbbcbcbbbbcbbccccbbcccbcccccbccbcbcbccbccccccbbccbcbccc
+bbBbBBBbBbBBbBbBBBBbbbBBbBbbBbBbbbbBbbBBBBbbBBBbBBBBBbBBbBbBbBBbBBBBBBbbBBbBbBBB
+
+bccbbbbccbbbbccbbbcbcbcbbbbbcbcccccbcbccccbbccbbbbccbbcbbccbcbbbbcbcbcbcccbccbcb
+bBBbbbbBBbbbbBBbbbBbBbBbbbbbBbBBBBBbBbBBBBbbBBbbbbBBbbBbbBBbBbbbbBbBbBbBBBbBBbBb
+
+cccccbcbcbccb
+BBBBBbBbBbBBb
+
+--------------------------------------------------------------------------------
+-396 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+-46 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+Bbbcbcccbcbbbccbbbcccbbccccbcbcccccbccccccbbbcccccccbbcbcbcccccbccbccbbcbcccbcbc
+cbbBbBBBbBbbbBBbbbBBBbbBBBBbBbBBBBBbBBBBBBbbbBBBBBBBbbBbBbBBBBBbBBbBBbbBbBBBbBbB
+
+cccbbbbbccbbccccbccbcbcbbbccccccccccbbcbbbccbcbcbccbcbccbbcbbbcbbccccccbbcbbbccc
+BBBbbbbbBBbbBBBBbBBbBbBbbbBBBBBBBBBBbbBbbbBBbBbBbBBbBbBBbbBbbbBbbBBBBBBbbBbbbBBB
+
+cccbccbbcbbbbcbccbcc
+BBBbBBbbBbbbbBbBBbBB
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team NotBob
+--------------------------------------------------------------------------------
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+0 pt/round: FoolUsOnce(P0) "Collude until betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-249 pt/round: oldfolks(P1) "Collude 60% unless betrayed within last 10 rounds."
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+0 pt/round: TitForTat!(P2) "tit-for-tat"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+0 pt/round: Team 3(P3) "your past will haunt you"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-247 pt/round: Caffeine Required(P4) "Betray but Collude"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-247 pt/round: team 5(P5) "always betray"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+0 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+0 pt/round: Team 6(P6) "Collude until Betrayed, then Betray all"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-250 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-250 pt/round: Team 7(P7) "Screw your neighbor"
+cBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-248 pt/round: Team BOB(P8) "Betray Or Bust"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-46 pt/round: NotBob(P10) "Always collude! No Jail! for anyone"
+-396 pt/round: Team Tina(P9) "Betray at first strike! Retaliation protection and random choice."
+cbbBbBBBbBbbbBBbbbBBBbbBBBBbBbBBBBBbBBBBBBbbbBBBBBBBbbBbBbBBBBBbBBbBBbbBbBBBbBbB
+Bbbcbcccbcbbbccbbbcccbbccccbcbcccccbccccccbbbcccccccbbcbcbcccccbccbccbbcbcccbcbc
+
+BBBbbbbbBBbbBBBBbBBbBbBbbbBBBBBBBBBBbbBbbbBBbBbBbBBbBbBBbbBbbbBbbBBBBBBbbBbbbBBB
+cccbbbbbccbbccccbccbcbcbbbccccccccccbbcbbbccbcbcbccbcbccbbcbbbcbbccccccbbcbbbccc
+
+BBBbBBbbBbbbbBbBBbBB
+cccbccbbcbbbbcbccbcc
+
+--------------------------------------------------------------------------------
