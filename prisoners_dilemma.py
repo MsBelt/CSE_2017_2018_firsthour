@@ -1,5 +1,5 @@
 from __future__ import print_function
-
+#scores, moves, reports = main_play([team0,team1,team2,team3,team4,team5,team6,team7,team8,team9])
 ##### 
 # Computer Science and Software Engineering
 # PLTW AP CS Principles
